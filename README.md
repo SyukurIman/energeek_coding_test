@@ -39,6 +39,8 @@ detection-box/
 ├── train.py                   # Skrip training
 ├── augment_dataset.py         # 📸 Augmentasi data (perbanyak dataset otomatis)
 ├── inference_test.py          # Skrip inference & logika spasial
+├── api_service.py             # 🌐 AI Service API (FastAPI)
+├── test_api.py                # 🧪 Test client untuk API
 ├── requirements.txt           # Dependencies
 ├── README.md                  # Dokumentasi ini
 └── project.md                 # Panduan pengembangan lengkap
@@ -178,6 +180,79 @@ Sistem menggunakan `cv2.pointPolygonTest()` untuk menentukan apakah centroid _bl
 - **Gambar**: Hasil deteksi disimpan sebagai `result_output.jpg`
 - **Video**: Hasil deteksi disimpan sebagai `result_video.mp4`
 - **Info**: Menampilkan jumlah _Inside_ dan _Outside_ di frame
+
+---
+
+## 🌐 AI Service API (FastAPI)
+
+Service REST API yang menerima gambar dan mengembalikan JSON.
+
+### Format Response
+
+```json
+{
+  "inside_box": 7,
+  "outside_box": 2,
+  "total": 9
+}
+```
+
+### Cara Jalankan
+
+```bash
+# Install dependencies tambahan
+pip install fastapi uvicorn python-multipart
+
+# Jalankan server
+python api_service.py
+```
+
+Server akan berjalan di `http://localhost:8000`.  
+Dokumentasi API otomatis: `http://localhost:8000/docs`
+
+### Endpoints
+
+| Method | Path              | Deskripsi                        |
+| ------ | ----------------- | -------------------------------- |
+| `GET`  | `/`               | Info service                     |
+| `GET`  | `/health`         | Health check                     |
+| `POST` | `/predict`        | Upload file gambar → JSON hasil  |
+| `POST` | `/predict/base64` | Kirim gambar base64 → JSON hasil |
+
+### Contoh Penggunaan
+
+**Via curl:**
+
+```bash
+curl -X POST -F "file=@test_image.jpg" http://localhost:8000/predict
+```
+
+**Via Python:**
+
+```python
+import requests
+
+with open("test_image.jpg", "rb") as f:
+    resp = requests.post("http://localhost:8000/predict", files={"file": f})
+    print(resp.json())
+# Output: {"inside_box": 7, "outside_box": 2, "total": 9}
+```
+
+**Via test client:**
+
+```bash
+python test_api.py test_image.jpg
+```
+
+**Via base64:**
+
+```bash
+# Encode dulu
+$base64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes("test_image.jpg"))
+Invoke-RestMethod -Uri http://localhost:8000/predict/base64 `
+  -Method Post -Body (@{image=$base64} | ConvertTo-Json) `
+  -ContentType "application/json"
+```
 
 ---
 

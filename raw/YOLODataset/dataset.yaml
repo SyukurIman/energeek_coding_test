@@ -1,0 +1,8 @@
+path: \\?\L:\Portofolio\detection box\raw\YOLODataset
+train: images/train
+val: images/val
+test:
+
+names:
+    0: container_box
+    1: blue_box

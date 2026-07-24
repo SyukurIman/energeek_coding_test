@@ -1,0 +1,9 @@
+ultralytics>=8.0.0
+opencv-python>=4.8.0,<4.10
+numpy>=1.24.0,<2.0.0
+matplotlib>=3.7.0
+
+# Untuk GPU (CUDA 12.1), install torch & torchvision dari PyTorch official:
+# pip install torch==2.2.2+cu121 torchvision==0.17.2+cu121 --index-url https://download.pytorch.org/whl/cu121
+# Pastikan numpy di-install SEBELUM torchvision, atau pake --no-deps:
+# pip install torchvision==0.17.2+cu121 --index-url https://download.pytorch.org/whl/cu121 --no-deps

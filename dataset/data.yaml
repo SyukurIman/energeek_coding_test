@@ -1,0 +1,12 @@
+# Konfigurasi Dataset untuk YOLOv8
+# Energeek - Monitoring Deteksi Objek Kotak Biru (In/Out Container Putih)
+
+path: ./dataset # root dir dataset
+train: train/images
+val: val/images
+test: test/images # Opsional
+
+nc: 2
+names:
+  0: container_box
+  1: blue_box

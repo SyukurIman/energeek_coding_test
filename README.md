@@ -284,7 +284,3 @@ model.export(format="engine", device=0)  # GPU required
 | Performa lambat          | Ekspor ke ONNX atau TensorRT                   |
 
 ---
-
-## 📝 Lisensi
-
-Proyek ini dikembangkan untuk keperluan **Energeek** — Internal Use.
